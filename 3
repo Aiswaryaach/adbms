@@ -1,0 +1,172 @@
+student@student-OptiPlex-3050:~$ sudo mysql -u root -p
+[sudo] password for student: 
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 32
+Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1 Ubuntu 16.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use db2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [db2]> create table clientmaster(client_no int,name varchar(10),Address varchar(20),city varchar(10),pincode int,state varchar(10));
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [db2]> alter table clientmaster modify client_no varchar(10);
+Query OK, 0 rows affected (0.56 sec)               
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [db2]> insert into clientmaster values('C0190','aishu','Skagen 21','mumbai',96522,'india');
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [db2]> insert into clientmaster values('C0191','Cardinal','Keskuskatu','Helsinki',21240,'Finland');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db2]> insert into clientmaster values('C0193','Wolski','ul. Filtrowa','Walla',01-012,'Poland');
+MariaDB [db2]> insert into clientmaster values('C0196','amarnath','ponath','kodungallur',680666,'kerala');
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [db2]> insert into clientmaster values('C0198','aswin','naraukula','kodungallur',680668,'kerala');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+MariaDB [db2]> insert into clientmaster values('C0200','jaya','gandhinagar','delhi',42314,'newdelhi');
+Query OK, 1 row affected (0.22 sec)
+
+MariaDB [db2]> delete from clientmaster where client_no='C0191';
+Query OK, 1 row affected (0.43 sec)
+
+MariaDB [db2]> insert into clientmaster values('C0193','Cardinal','ul. Filtrowa','Walla',01-012,'Poland');
+Query OK, 1 row affected (0.04 sec)
+
+b2]> insert into clientmaster values('C0191','Wolski','Keskuskatu','Helsinki',21240,'Finland');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db2]> select * from clientmaster;
++-----------+----------+--------------+------------+---------+----------+
+| client_no | name     | Address      | city       | pincode | state    |
++-----------+----------+--------------+------------+---------+----------+
+| C0190     | aishu    | Skagen 21    | mumbai     |   96522 | india    |
+| C0193     | Wolski   | ul. Filtrowa | Walla      |     -11 | Poland   |
+| C0196     | amarnath | ponath       | kodungallu |  680666 | kerala   |
+| C0198     | aswin    | naraukula    | kodungallu |  680668 | kerala   |
+| C0200     | jaya     | gandhinagar  | delhi      |   42314 | newdelhi |
+| C0191     | Wolski   | Keskuskatu   | Helsinki   |   21240 | Finland  |
++-----------+----------+--------------+------------+---------+----------+
+6 rows in set (0.00 sec)
+
+MariaDB [db2]> select client_no,name from clientmaster;
++-----------+----------+
+| client_no | name     |
++-----------+----------+
+| C0190     | aishu    |
+| C0193     | Wolski   |
+| C0196     | amarnath |
+| C0198     | aswin    |
+| C0200     | jaya     |
+| C0191     | Wolski   |
++-----------+----------+
+6 rows in set (0.00 sec)
+
+MariaDB [db2]> select distinct(name) from clientmaster;
++----------+
+| name     |
++----------+
+| aishu    |
+| Wolski   |
+| amarnath |
+| aswin    |
+| jaya     |
++----------+
+5 rows in set (0.00 sec)
+
+MariaDB [db2]> select client_no,name,address,city from clientmaster order by client_no desc; 
++-----------+----------+--------------+------------+
+| client_no | name     | address      | city       |
++-----------+----------+--------------+------------+
+| C0200     | jaya     | gandhinagar  | delhi      |
+| C0198     | aswin    | naraukula    | kodungallu |
+| C0196     | amarnath | ponath       | kodungallu |
+| C0193     | Wolski   | ul. Filtrowa | Walla      |
+| C0191     | Wolski   | Keskuskatu   | Helsinki   |
+| C0190     | aishu    | Skagen 21    | mumbai     |
++-----------+----------+--------------+------------+
+6 rows in set (0.00 sec)
+
+MariaDB [db2]> select client_no,name,address,city from clientmaster order by client_no asc; 
++-----------+----------+--------------+------------+
+| client_no | name     | address      | city       |
++-----------+----------+--------------+------------+
+| C0190     | aishu    | Skagen 21    | mumbai     |
+| C0191     | Wolski   | Keskuskatu   | Helsinki   |
+| C0193     | Wolski   | ul. Filtrowa | Walla      |
+| C0196     | amarnath | ponath       | kodungallu |
+| C0198     | aswin    | naraukula    | kodungallu |
+| C0200     | jaya     | gandhinagar  | delhi      |
++-----------+----------+--------------+------------+
+6 rows in set (0.00 sec)
+
+MariaDB [db2]> select client_no,name from clientmaster where client_no='C0200';
++-----------+------+
+| client_no | name |
++-----------+------+
+| C0200     | jaya |
++-----------+------+
+1 row in set (0.00 sec)
+
+MariaDB [db2]> alter table clientmaster add telephone_no int;
+Query OK, 0 rows affected (0.34 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [db2]> alter table clientmaster add fax_no int;
+Query OK, 0 rows affected (0.34 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [db2]>update clientmaster set telephone_no=8945001245,fax_no='1456' where client_no='C0190';
+Query OK, 1 row affected (0.34 sec)
+
+MariaDB [db2]>update clientmaster set telephone_no=6890234781 ,fax_no='6789' where client_no='C0193';
+Query OK, 1 row affected (0.34 sec)
+
+MariaDB [db2]>update clientmaster set telephone_no=6790239045 ,fax_no='0567' where client_no='C0196';
+Query OK, 1 row affected (0.34 sec)
+
+MariaDB [db2]>update clientmaster set telephone_no=6756239045 ,fax_no='1679' where client_no='C0198';
+Query OK, 1 row affected (0.34 sec)
+
+MariaDB [db2]>update clientmaster set telephone_no=9945001244 ,fax_no='7932' where client_no='C0200';
+Query OK, 1 row affected (0.34 sec)
+
+MariaDB [db2]>update clientmaster set telephone_no=8940001243 ,fax_no='1289' where client_no='C0191';
+Query OK, 1 row affected (0.34 sec)
+
+
+
+
+
+MariaDB [db2]> select * from clientmaster;
++-----------+----------+--------------+------------+---------+----------+--------------+--------+
+| client_no | name     | Address      | city       | pincode | state    | telephone_no | fax_no |
++-----------+----------+--------------+------------+---------+----------+--------------+--------+
+| C0190     | aishu    | Skagen 21    | mumbai     |   96522 | india    |   8945001245 |   1456 |
+| C0193     | Wolski   | ul. Filtrowa | Walla      |     -11 | Poland   |   6890234781 |   6789 |
+| C0196     | amarnath | ponath       | kodungallu |  680666 | kerala   |   6790239045 |   0567 |
+| C0198     | aswin    | naraukula    | kodungallu |  680668 | kerala   |   6756239045 |   1679 |
+| C0200     | jaya     | gandhinagar  | delhi      |   42314 | newdelhi |   9945001244 |   7932 |
+| C0191     | Wolski   | Keskuskatu   | Helsinki   |   21240 | Finland  |   8940001243 |   1289 |
++-----------+----------+--------------+------------+---------+----------+--------------+--------+
+6 rows in set (0.00 sec)
+
+MariaDB [db2]> alter table clientmaster modify fax_no varchar(5);
+Query OK, 6 rows affected (0.89 sec)               
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [db2]> truncate clientmaster;
+Query OK, 0 rows affected (0.71 sec)
+
+MariaDB [db2]> 
+

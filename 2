@@ -1,0 +1,156 @@
+student@student-OptiPlex-3050:~$ sudo mysql -u root -p
+[sudo] password for student: 
+Sorry, try again.
+[sudo] password for student: 
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 33
+Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1 Ubuntu 16.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db1                |
+| db2                |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.42 sec)
+
+MariaDB [(none)]> use db2;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [db2]> use db2;
+Database changed
+MariaDB [db2]> create table emp(empno int,empname varchar(10),dest varchar(20),
+    -> salary int,dob date,depno int);
+Query OK, 0 rows affected (0.25 sec)
+
+MariaDB [db2]> select * from emp;
+Empty set (0.00 sec)
+
+MariaDB [db2]> insert into emp values(100,'arun','HR',10000,'2000-6-02',1);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [db2]> insert into emp values(101,'aishu','MANAGER',30000,'1995-4-12',2);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [db2]> insert into emp values(102,'Angi','EMPLOYE',18000,'1997-3-06',3);
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db2]> insert into emp values(103,'Viji','Developer',20000,'1999-7-22',4);
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db2]> insert into emp values(104,'fathima','HR',7000,'2001-9-19',5);
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db2]> insert into emp values(105,'Tomi','s/wtesting',12000,'1994-12-11',6);
+Query OK, 1 row affected (0.44 sec)
+
+MariaDB [db2]> select * from emp;
++-------+---------+------------+--------+------------+-------+
+| empno | empname | dest       | salary | dob        | depno |
++-------+---------+------------+--------+------------+-------+
+|   100 | arun    | HR         |  10000 | 2000-06-02 |     1 |
+|   101 | aishu   | MANAGER    |  30000 | 1995-04-12 |     2 |
+|   102 | Angi    | EMPLOYE    |  18000 | 1997-03-06 |     3 |
+|   103 | Viji    | Developer  |  20000 | 1999-07-22 |     4 |
+|   104 | fathima | HR         |   7000 | 2001-09-19 |     5 |
+|   105 | Tomi    | s/wtesting |  12000 | 1994-12-11 |     6 |
++-------+---------+------------+--------+------------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [db2]> select * from emp where salary>10000;
++-------+---------+------------+--------+------------+-------+
+| empno | empname | dest       | salary | dob        | depno |
++-------+---------+------------+--------+------------+-------+
+|   101 | aishu   | MANAGER    |  30000 | 1995-04-12 |     2 |
+|   102 | Angi    | EMPLOYE    |  18000 | 1997-03-06 |     3 |
+|   103 | Viji    | Developer  |  20000 | 1999-07-22 |     4 |
+|   105 | Tomi    | s/wtesting |  12000 | 1994-12-11 |     6 |
++-------+---------+------------+--------+------------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [db2]> delete from emp where depno=6;
+Query OK, 1 row affected (0.51 sec)
+
+MariaDB [db2]> select * from emp;
++-------+---------+-----------+--------+------------+-------+
+| empno | empname | dest      | salary | dob        | depno |
++-------+---------+-----------+--------+------------+-------+
+|   100 | arun    | HR        |  10000 | 2000-06-02 |     1 |
+|   101 | aishu   | MANAGER   |  30000 | 1995-04-12 |     2 |
+|   102 | Angi    | EMPLOYE   |  18000 | 1997-03-06 |     3 |
+|   103 | Viji    | Developer |  20000 | 1999-07-22 |     4 |
+|   104 | fathima | HR        |   7000 | 2001-09-19 |     5 |
++-------+---------+-----------+--------+------------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [db2]> update emp set salary=salary+5000 where dest='MANAGER';
+Query OK, 1 row affected (0.51 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [db2]> select * from emp;
++-------+---------+-----------+--------+------------+-------+
+| empno | empname | dest      | salary | dob        | depno |
++-------+---------+-----------+--------+------------+-------+
+|   100 | arun    | HR        |  10000 | 2000-06-02 |     1 |
+|   101 | aishu   | MANAGER   |  35000 | 1995-04-12 |     2 |
+|   102 | Angi    | EMPLOYE   |  18000 | 1997-03-06 |     3 |
+|   103 | Viji    | Developer |  20000 | 1999-07-22 |     4 |
+|   104 | fathima | HR        |   7000 | 2001-09-19 |     5 |
++-------+---------+-----------+--------+------------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [db2]> select empname from emp;
++---------+
+| empname |
++---------+
+| arun    |
+| aishu   |
+| Angi    |
+| Viji    |
+| fathima |
++---------+
+5 rows in set (0.00 sec)
+
+MariaDB [db2]> select * from emp order by empname;
++-------+---------+-----------+--------+------------+-------+
+| empno | empname | dest      | salary | dob        | depno |
++-------+---------+-----------+--------+------------+-------+
+|   101 | aishu   | MANAGER   |  35000 | 1995-04-12 |     2 |
+|   102 | Angi    | EMPLOYE   |  18000 | 1997-03-06 |     3 |
+|   100 | arun    | HR        |  10000 | 2000-06-02 |     1 |
+|   104 | fathima | HR        |   7000 | 2001-09-19 |     5 |
+|   103 | Viji    | Developer |  20000 | 1999-07-22 |     4 |
++-------+---------+-----------+--------+------------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [db2]> select * from emp order by empname desc;
++-------+---------+-----------+--------+------------+-------+
+| empno | empname | dest      | salary | dob        | depno |
++-------+---------+-----------+--------+------------+-------+
+|   103 | Viji    | Developer |  20000 | 1999-07-22 |     4 |
+|   104 | fathima | HR        |   7000 | 2001-09-19 |     5 |
+|   100 | arun    | HR        |  10000 | 2000-06-02 |     1 |
+|   102 | Angi    | EMPLOYE   |  18000 | 1997-03-06 |     3 |
+|   101 | aishu   | MANAGER   |  35000 | 1995-04-12 |     2 |
++-------+---------+-----------+--------+------------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [db2]> truncate table emp;
+Query OK, 0 rows affected (0.58 sec)
+
+MariaDB [db2]> select * from emp;
+Empty set (0.00 sec)
+
+MariaDB [db2]> 
+
