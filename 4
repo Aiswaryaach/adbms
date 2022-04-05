@@ -1,0 +1,230 @@
+student@student-OptiPlex-3050:~$ sudo mysql -u root -p
+[sudo] password for student: 
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 34
+Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1 Ubuntu 16.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database db3;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [(none)]> use db3;
+Database change
+
+MariaDB [db3]> create table employees(employee_id int primary key,first_name varchar(20),last_name varchar(10),email varchar(20),phone_number int,hire_date date,job_id varchar(10) references jobs,salary int,manager_id varchar(5),department_id varchar(5) references departments);
+Query OK, 0 rows affected (0.23 sec)
+
+MariaDB [db3]> create table jobs(job_id varchar(10) primary key,job_title varchar(10),min_salary int,max_salary int);
+Query OK, 0 rows affected (0.24 sec)
+
+MariaDB [db3]> create table departments(department_id varchar(10)primary key,department_name varchar(10));
+Query OK, 0 rows affected (0.67 sec)
+
+
+MariaDB [db3]> insert into employees values(1,'Aiswarya','N.S','ais@gmail.com',9605257241,'2000-04-22','E1001',10000,'M001','DS1');
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [db3]> insert into employees values(2,'Akshay','Mohan','akshaymohan@gmail.com',9993792014,'1999-10-12','E1002',15000,'M002','DS2');
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+MariaDB [db3]> insert into employees values(3,'Reashma','Ramesh','reashmaramesh@gmail.com',9600218791,'1997-06-3','E1003',17000,'M003','DS3');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+MariaDB [db3]> insert into employees values(4,'Ammu','Krish','ammu007@gmail.com',8609918791,'2001-07-13','E1005',11000,'M005','DS5');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [db3]> insert into employees values(5,'Arun','Krish','arunkrishna7@gmail.com',8600472199,'1998-12-12','E1004',16000,'M004','DS4');
+Query OK, 1 row affected, 1 warning (0.43 sec)
+
+MariaDB [db3]> select * from employees;
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+| employee_id | first_name | last_name | email                | phone_number | job_id | salary | manager_id | department_id | commission |
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+|           1 | Aiswarya   | N.S       | ais@gmail.com        | 9605257241   | E1001  |  10000 | M001       | DS1           |       NULL |
+|           2 | Akshay     | Mohan     | akshaymohan@gmail.co | 9993792014   | E1002  |  31000 | M002       | DS2           |       NULL |
+|           3 | Reashma    | Ramesh    | reashmaramesh@gmail. | 9600218791   | E1003  |  17000 | M003       | DS3           |       NULL |
+|           4 | Ammu       | Krish     | ammu007@gmail.com    | 8609918791   | E1005  |  11000 | M005       | DS5           |       NULL |
+|           5 | Arun       | Krish     | arunkrishna7@gmail.c | 8600472199   | E1004  |  16000 | M004       | DS4           |       NULL |
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+5 rows in set (0.00 sec)
+
+
+
+MariaDB [db3]> insert into jobs values('E1001','S\W tester',8000,15000);
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+MariaDB [db3]> insert into jobs values('E1002','developer',10000,25000);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [db3]> insert into jobs values('E1003','hr',15000,20000);
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db3]> insert into jobs values('E1004','junior tester',10000,20000);
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+MariaDB [db3]> insert into jobs values('E1005','accounter',15000,20000);
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [db3]> select * from jobs;
++--------+------------+------------+------------+
+| job_id | job_title  | min_salary | max_salary |
++--------+------------+------------+------------+
+| E1001  | SW tester  |       8000 |      15000 |
+| E1002  | developer  |      10000 |      25000 |
+| E1003  | hr         |      15000 |      20000 |
+| E1004  | junior tes |      10000 |      20000 |
+| E1005  | accounter  |      15000 |      20000 |
++--------+------------+------------+------------+
+5 rows in set (0.00 sec)
+
+ariaDB [db3]> insert into departments value('DS1','CS');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [db3]> insert into departments value('DS2','ACC');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db3]> insert into departments value('DS3','CS');
+Query OK, 1 row affected (0.43 sec)
+
+MariaDB [db3]> insert into departments value('DS4','TSTER');
+Query OK, 1 row affected (0.09 sec)
+
+MariaDB [db3]> insert into departments value('DS5','ACCO');
+Query OK, 1 row affected (0.44 sec)
+
+MariaDB [db3]> alter table departments rename to dept;
+Query OK, 0 rows affected (0.12 sec)
+
+MariaDB [db3]> select * from dept;
++---------------+-----------------+
+| department_id | department_name |
++---------------+-----------------+
+| DS1           | CS              |
+| DS2           | ACC             |
+| DS3           | CS              |
+| DS4           | TSTER           |
+| DS5           | ACCO            |
++---------------+-----------------+
+5 rows in set (0.00 sec)
+
+
+MariaDB [db3]> alter table employees modify salary smallint;
+Query OK, 5 rows affected (0.65 sec)               
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [db3]> alter table employees add commission int;
+Query OK, 0 rows affected (0.36 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [db3]> alter table employees drop hire_date;
+Query OK, 0 rows affected (0.69 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [db3]> select * from employees;
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+| employee_id | first_name | last_name | email                | phone_number | job_id | salary | manager_id | department_id | commission |
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+|           1 | Aiswarya   | N.S       | ais@gmail.com        | 9605257241   | E1001  |  10000 | M001       | DS1           |       NULL |
+|           2 | Akshay     | Mohan     | akshaymohan@gmail.co | 9993792014   | E1002  |  15000 | M002       | DS2           |       NULL |
+|           3 | Reashma    | Ramesh    | reashmaramesh@gmail. | 9600218791   | E1003  |  17000 | M003       | DS3           |       NULL |
+|           4 | Ammu       | Krish     | ammu007@gmail.com    | 8609918791   | E1005  |  11000 | M005       | DS5           |       NULL |
+|           5 | Arun       | Krish     | arunkrishna7@gmail.c | 8600472199   | E1004  |  16000 | M004       | DS4           |       NULL |
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [db3]> select first_name,salary from employees where salary>30000;
++------------+--------+
+| first_name | salary |
++------------+--------+
+| Akshay     |  31000 |
++------------+--------+
+1 row in set (0.00 sec)
+
+MariaDB [db3]> update employees set commission=5000 where employee_id=1;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [db3]> update employees set commission=7000 where employee_id=2;
+Query OK, 1 row affected (0.42 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [db3]> update employees set commission=3000 where employee_id=3;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [db3]> update employees set commission=6000 where employee_id=4;
+Query OK, 1 row affected (0.06 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [db3]> update employees set commission=10000 where employee_id=5;
+Query OK, 1 row affected (0.20 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [db3]> select * from employees;
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+| employee_id | first_name | last_name | email                | phone_number | job_id | salary | manager_id | department_id | commission |
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+|           1 | Aiswarya   | N.S       | ais@gmail.com        | 9605257241   | E1001  |  10000 | M001       | DS1           |       5000 |
+|           2 | Akshay     | Mohan     | akshaymohan@gmail.co | 9993792014   | E1002  |  15000 | M002       | DS2           |       7000|
+|           3 | Reashma    | Ramesh    | reashmaramesh@gmail. | 9600218791   | E1003  |  17000 | M003       | DS3           |       3000 |
+|           4 | Ammu       | Krish     | ammu007@gmail.com    | 8609918791   | E1005  |  11000 | M005       | DS5           |       6000 |
+|           5 | Arun       | Krish     | arunkrishna7@gmail.c | 8600472199   | E1004  |  16000 | M004       | DS4           |      10000 |
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+5 rows in set (0.00 sec)
+
+MariaDB [db3]> delete from employees where employee_id=4;
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [db3]> select * from employees;
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+| employee_id | first_name | last_name | email                | phone_number | job_id | salary | manager_id | department_id | commission |
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+|           1 | Aiswarya   | N.S       | ais@gmail.com        | 9605257241   | E1001  |  10000 | M001       | DS1           |       5000 |
+|           2 | Akshay     | Mohan     | akshaymohan@gmail.co | 9993792014   | E1002  |  31000 | M002       | DS2           |       7000 |
+|           3 | Reashma    | Ramesh    | reashmaramesh@gmail. | 9600218791   | E1003  |  17000 | M003       | DS3           |       3000 |
+|           5 | Arun       | Krish     | arunkrishna7@gmail.c | 8600472199   | E1004  |  16000 | M004       | DS4           |      10000 |
++-------------+------------+-----------+----------------------+--------------+--------+--------+------------+---------------+------------+
+4 rows in set (0.00 sec)
+
+MariaDB [db3]> truncate dept;
+Query OK, 0 rows affected (0.88 sec)
+
+dcl
+
+MariaDB [db3]> create user'user1'@localhost identified by'password1';
+Query OK, 0 rows affected (0.01 sec)
+
+MariaDB [db3]> grant all privileges on*.*to'user1'@localhost identified by'password1';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [db3]> show grants for'user1'@localhost;
++-----------------------------------------------------------------------------------------------------------------------+
+| Grants for user1@localhost                                                                                            |
++-----------------------------------------------------------------------------------------------------------------------+
+| GRANT ALL PRIVILEGES ON *.* TO 'user1'@'localhost' IDENTIFIED BY PASSWORD '*668425423DB5193AF921380129F465A6425216D0' |
++-----------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [db3]> revoke insert on*.*from'user1'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+MariaDB [db3]> show grants for'user1'@localhost;
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Grants for user1@localhost                                                                                                                                                                                                                                                                                                                                                                                                 |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| GRANT SELECT, UPDATE, DELETE, CREATE, DROP, RELOAD, SHUTDOWN, PROCESS, FILE, REFERENCES, INDEX, ALTER, SHOW DATABASES, SUPER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, REPLICATION SLAVE, REPLICATION CLIENT, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, CREATE USER, EVENT, TRIGGER, CREATE TABLESPACE ON *.* TO 'user1'@'localhost' IDENTIFIED BY PASSWORD '*668425423DB5193AF921380129F465A6425216D0' |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+
+
+
