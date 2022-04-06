@@ -1,19 +1,4 @@
-student@student-OptiPlex-3050:~$ sudo mysql -u root -p
-[sudo] password for student: 
-Enter password: 
-Welcome to the MariaDB monitor.  Commands end with ; or \g.
-Your MariaDB connection id is 34
-Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1 Ubuntu 16.04
 
-Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-MariaDB [(none)]> create database db3;
-Query OK, 1 row affected (0.00 sec)
-
-MariaDB [(none)]> use db3;
-Database change
 
 MariaDB [db3]> create table employees(employee_id int primary key,first_name varchar(20),last_name varchar(10),email varchar(20),phone_number int,hire_date date,job_id varchar(10) references jobs,salary int,manager_id varchar(5),department_id varchar(5) references departments);
 Query OK, 0 rows affected (0.23 sec)
