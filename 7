@@ -1,0 +1,183 @@
+MariaDB [db3]>create table author(id int primary key,name varchar(15),city varchar(20),country varchar(15));
+Query OK, 0 rows affected (0.28 sec)
+
+MariaDB [db3]> insert into author values(001,'adith','thrissur','india');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db3]> insert into author values(002,'abhijith','newyork','america');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db3]> insert into author values(003,'john','winden','germany');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [db3]> insert into author values(004,'wilason','ernakulam','india');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [db3]> create table pulisher(id int primary key,pname varchar(10),city varchar(10),country varchar(10));
+Query OK, 0 rows affected (0.25 sec)
+
+MariaDB [db3]> insert into pulisher values(1001,'John wiley','hoboken','united stes');
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+MariaDB [db3]> insert into pulisher values(1002,'harpercollins','newyork','united stes');
+Query OK, 1 row affected, 2 warnings (0.06 sec)
+
+MariaDB [db3]> insert into pulisher values(1003,'jaico','mumbai','india');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db3]> insert into pulisher values(1004,'simon','nwdelhi','india');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [db3]> create table category(id int primary key,description char(15));
+Query OK, 0 rows affected (0.50 sec)
+
+MariaDB [db3]> insert into category values(1,'fiction');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db3]> insert into category values(2,'nonfiction');
+Query OK, 1 row affected (0.19 sec)
+
+MariaDB [db3]> insert into category values(3,'nonfiction');
+Query OK, 1 row affected (0.04 sec)
+
+MariaDB [db3]> insert into category values(4,'fiction');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [db3]> create table books(book_id int,title varchar(20),author_id int references author(id),publisher_id int references pulisher(id),category_id int references category(id),year year,price int);
+Query OK, 0 rows affected (0.23 sec)
+
+MariaDB [db3]> insert into books values(101,'The Sun Also Rises ',001,1001,1,1997,800);
+Query OK, 1 row affected (0.44 sec)
+
+MariaDB [db3]> insert into books values(102,'A Scanner Darkly',002,1002,2,1998,1000);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [db3]> insert into books values(103,'Number the Stars ',003,1003,3,1996,900);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [db3]> insert into books values(104,'Brave New World ',004,1004,4,1999,600);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [db3]> select * from author;
++----+----------+-----------+---------+
+| id | name     | city      | country |
++----+----------+-----------+---------+
+|  1 | adith    | thrissur  | india   |
+|  2 | abhijith | newyork   | america |
+|  3 | john     | winden    | germany |
+|  4 | wilason  | ernakulam | india   |
++----+----------+-----------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [db3]> select * from pulisher;
++------+------------+---------+------------+
+| id   | pname      | city    | country    |
++------+------------+---------+------------+
+| 1001 | John wiley | hoboken | united ste |
+| 1002 | harpercoll | newyork | united ste |
+| 1003 | jaico      | mumbai  | india      |
+| 1004 | simon      | nwdelhi | india      |
++------+------------+---------+------------+
+4 rows in set (0.00 sec)
+MariaDB [db3]> select * from category;
++----+-------------+
+| id | description |
++----+-------------+
+|  1 | fiction     |
+|  2 | nonfiction  |
+|  3 | nonfiction  |
+|  4 | fiction     |
++----+-------------+
+4 rows in set (0.00 sec)
+
+
+
+MariaDB [db3]> alter table books add primary key(book_id);
+Query OK, 4 rows affected (0.73 sec)               
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [db3]> select * from books;
++---------+---------------------+-----------+--------------+-------------+------+-------+
+| book_id | title               | author_id | publisher_id | category_id | year | price |
++---------+---------------------+-----------+--------------+-------------+------+-------+
+|     101 | The Sun Also Rises  |         1 |         1001 |           1 | 1997 |   800 |
+|     102 | A Scanner Darkly    |         2 |         1002 |           2 | 1998 |  1000 |
+|     103 | Number the Stars    |         3 |         1003 |           3 | 1996 |   900 |
+|     104 | Brave New World     |         4 |         1004 |           4 | 1999 |   600 |
++---------+---------------------+-----------+--------------+-------------+------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [db3]> select book_id,title,price from books;
++---------+---------------------+-------+
+| book_id | title               | price |
++---------+---------------------+-------+
+|     101 | The Sun Also Rises  |   800 |
+|     102 | A Scanner Darkly    |  1000 |
+|     103 | Number the Stars    |   900 |
+|     104 | Brave New World     |   600 |
++---------+---------------------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [db3]> select title from books where price>500;
++---------------------+
+| title               |
++---------------------+
+| The Sun Also Rises  |
+| A Scanner Darkly    |
+| Number the Stars    |
+| Brave New World     |
++---------------------+
+4 rows in set (0.01 sec)
+
+MariaDB [db3]> select title from books where category_id in(select id from category where description!='fiction');
++-------------------+
+| title             |
++-------------------+
+| A Scanner Darkly  |
+| Number the Stars  |
++-------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [db3]> select * from books where title like 'b%';
++---------+------------------+-----------+--------------+-------------+------+-------+
+| book_id | title            | author_id | publisher_id | category_id | year | price |
++---------+------------------+-----------+--------------+-------------+------+-------+
+|     104 | Brave New World  |         4 |         1004 |           4 | 1999 |   600 |
++---------+------------------+-----------+--------------+-------------+------+-------+
+1 row in set (0.00 sec)
+
+
+
+
+
+MariaDB [db3]> select title,author.name,pulisher.pname from books left join author on author.id=books.author_id left join pulisher on pulisher.id=books.publisher_id where year in (1996,1997,1998);
++---------------------+----------+------------+
+| title               | name     | pname      |
++---------------------+----------+------------+
+| The Sun Also Rises  | adith    | John wiley |
+| A Scanner Darkly    | abhijith | harpercoll |
+| Number the Stars    | john     | jaico      |
++---------------------+----------+------------+
+3 rows in set (0.00 sec)
+
+MariaDB [db3]> select * from books where price between 600 and 800;
++---------+---------------------+-----------+--------------+-------------+------+-------+
+| book_id | title               | author_id | publisher_id | category_id | year | price |
++---------+---------------------+-----------+--------------+-------------+------+-------+
+|     101 | The Sun Also Rises  |         1 |         1001 |           1 | 1997 |   800 |
+|     104 | Brave New World     |         4 |         1004 |           4 | 1999 |   600 |
++---------+---------------------+-----------+--------------+-------------+------+-------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
