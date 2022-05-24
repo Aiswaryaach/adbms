@@ -3,7 +3,7 @@ declare
 a number;
 i number;
 c boolean;
-temp boolean;
+--temp boolean;
 
 function prime(n in out number)
 return boolean IS
