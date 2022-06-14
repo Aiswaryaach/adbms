@@ -1,0 +1,101 @@
+> use emp;
+switched to db emp
+
+> db.createCollection ("empdetails");
+{ "ok" : 1 }
+
+> db.empdetails.insert({name:"Bhuvan",age:30,email:"bhuvan@gps.com",salary:5000})
+WriteResult({ "nInserted" : 1 })
+> db.empdetails.insert({name:"Mohan",age:32,email:"Mohan@gps.com",salary:4000})
+WriteResult({ "nInserted" : 1 })
+> db.empdetails.insert({name:"Raju",age:29,email:"Raju@gps.com",salary:6000})
+WriteResult({ "nInserted" : 1 })
+> db.empdetails.insert({name:"Manu",age:29,email:"Manu@gps.com",salary:5500})
+WriteResult({ "nInserted" : 1 })
+> db.empdetails.insert({name:"Ram",age:31,email:"Ram@gps.com",salary:4500})
+WriteResult({ "nInserted" : 1 })
+
+> db.empdetails.find();
+{ "_id" : ObjectId("62a871c21d38730faedc464f"), "name" : "Bhuvan", "age" : 30, "email" : "bhuvan@gps.com", "salary" : 5000 }
+{ "_id" : ObjectId("62a871f41d38730faedc4650"), "name" : "Mohan", "age" : 32, "email" : "Mohan@gps.com", "salary" : 4000 }
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000 }
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "age" : 29, "email" : "Manu@gps.com", "salary" : 5500 }
+{ "_id" : ObjectId("62a872561d38730faedc4653"), "name" : "Ram", "age" : 31, "email" : "Ram@gps.com", "salary" : 4500 }
+
+> db.empdetails.findOne({name:"Mohan"});
+{
+	"_id" : ObjectId("62a871f41d38730faedc4650"),
+	"name" : "Mohan",
+	"age" : 32,
+	"email" : "Mohan@gps.com",
+	"salary" : 4000
+}
+> db.empdetails.find({salary:{$gte:5000}});
+
+{ "_id" : ObjectId("62a871c21d38730faedc464f"), "name" : "Bhuvan", "age" : 30, "email" : "bhuvan@gps.com", "salary" : 5000 }
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000 }
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "age" : 29, "email" : "Manu@gps.com", "salary" : 5500 }
+
+> db.empdetails.find({name:/^R/});
+
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000 }
+{ "_id" : ObjectId("62a872561d38730faedc4653"), "name" : "Ram", "age" : 31, "email" : "Ram@gps.com", "salary" : 4500 }
+
+
+
+> db.empdetails.find({name:/^R|^M/});
+{ "_id" : ObjectId("62a871f41d38730faedc4650"), "name" : "Mohan", "age" : 32, "email" : "Mohan@gps.com", "salary" : 4000 }
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000 }
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "age" : 29, "email" : "Manu@gps.com", "salary" : 5500 }
+{ "_id" : ObjectId("62a872561d38730faedc4653"), "name" : "Ram", "age" : 31, "email" : "Ram@gps.com", "salary" : 4500 }
+
+
+> db.empdetails.find({name:{$nin:["Mohan","Raju","Bhuvan"]}});
+
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "age" : 29, "email" : "Manu@gps.com", "salary" : 5500 }
+{ "_id" : ObjectId("62a872561d38730faedc4653"), "name" : "Ram", "age" : 31, "email" : "Ram@gps.com", "salary" : 4500 }
+
+> db.empdetails.find({name:{$in:["Mohan","Raju","Bhuvan"]}});
+
+{ "_id" : ObjectId("62a871c21d38730faedc464f"), "name" : "Bhuvan", "age" : 30, "email" : "bhuvan@gps.com", "salary" : 5000 }
+{ "_id" : ObjectId("62a871f41d38730faedc4650"), "name" : "Mohan", "age" : 32, "email" : "Mohan@gps.com", "salary" : 4000 }
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000 }
+
+> db.empdetails.find({age:{$lt:30}},{name:1,salary:1});
+
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "salary" : 6000 }
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "salary" : 5500 }
+
+
+> db.empdetails.find({$and:[{age:{$lt:30}},{salary:{$gt:5000}}]});
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000 }
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "age" : 29, "email" : "Manu@gps.com", "salary" : 5500 }
+
+
+> db.empdetails.update({name:"Mohan"},{$set:{email:"neil@gps.com"}});
+
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.empdetails.findOneAndUpdate({name:"Mohan"},{$set:{email:"neil@gps.com"}});
+{
+	"_id" : ObjectId("62a871f41d38730faedc4650"),
+	"name" : "Mohan",
+	"age" : 32,
+	"email" : "neil@gps.com",
+	"salary" : 4000
+}
+> db.empdetails.deleteMany({age:{$gt:56}});
+
+{ "acknowledged" : true, "deletedCount" : 0 }
+
+> db.empdetails.update({name:"Mohan"},{$set:{age:57}});
+
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.empdetails.deleteMany({age:{$gt:56}});
+{ "acknowledged" : true, "deletedCount" : 1 }
+
+> db.empdetails.deleteMany({age:{$gt:56}});
+{ "acknowledged" : true, "deletedCount" : 0 }
+> 
+

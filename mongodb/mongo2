@@ -1,0 +1,74 @@
+ db.empdetails.find();
+{ "_id" : ObjectId("62a871c21d38730faedc464f"), "name" : "Bhuvan", "age" : 30, "email" : "bhuvan@gps.com", "salary" : 5000 }
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000 }
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "age" : 29, "email" : "Manu@gps.com", "salary" : 5500 }
+{ "_id" : ObjectId("62a872561d38730faedc4653"), "name" : "Ram", "age" : 31, "email" : "Ram@gps.com", "salary" : 4500 }
+{ "_id" : ObjectId("62a8773c1d38730faedc4654"), "name" : "Mohan", "age" : 32, "email" : "Mohan@gps.com", "salary" : 4000 }
+
+> db.empdetails.update({name:"Bhuvan"},{$set:{dept:"Developer"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.empdetails.update({name:"Mohan"},{$set:{dept:"Designer"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.empdetails.update({name:"Manu"},{$set:{dept:"Designer"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.empdetails.update({name:"Raju"},{$set:{dept:"Tester"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.empdetails.update({name:"Ram"},{$set:{dept:"Tester"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+> db.empdetails.find();
+{ "_id" : ObjectId("62a871c21d38730faedc464f"), "name" : "Bhuvan", "age" : 30, "email" : "bhuvan@gps.com", "salary" : 5000, "dept" : "Developer" }
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000, "dept" : "Tester" }
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "age" : 29, "email" : "Manu@gps.com", "salary" : 5500, "dept" : "Designer" }
+{ "_id" : ObjectId("62a872561d38730faedc4653"), "name" : "Ram", "age" : 31, "email" : "Ram@gps.com", "salary" : 4500, "dept" : "Tester" }
+{ "_id" : ObjectId("62a8773c1d38730faedc4654"), "name" : "Mohan", "age" : 32, "email" : "Mohan@gps.com", "salary" : 4000, "dept" : "Designer" }
+
+> db.empdetails.aggregate([{$group:{_id:"$dept","Avg_Salary":{$avg:"$salary"}}}]);
+{ "_id" : "Tester", "Avg_Salary" : 5250 }
+{ "_id" : "Designer", "Avg_Salary" : 4750 }
+{ "_id" : "Developer", "Avg_Salary" : 5000 }
+
+> db.empdetails.aggregate([{$group:{_id:"$dept","Min_Salary":{$min:"$salary"}}}]);
+{ "_id" : "Tester", "Min_Salary" : 4500 }
+{ "_id" : "Designer", "Min_Salary" : 4000 }
+{ "_id" : "Developer", "Min_Salary" : 5000 }
+
+> db.empdetails.aggregate([{$group:{_id:"$dept","Max_Salary":{$max:"$salary"}}}]);
+{ "_id" : "Designer", "Max_Salary" : 5500 }
+{ "_id" : "Developer", "Max_Salary" : 5000 }
+{ "_id" : "Tester", "Max_Salary" : 6000 }
+
+> db.empdetails.aggregate([{$group:{_id:"$dept","No of Employee":{$sum:1}}}]);
+{ "_id" : "Designer", "No of Employee" : 2 }
+{ "_id" : "Developer", "No of Employee" : 1 }
+{ "_id" : "Tester", "No of Employee" : 2 }
+
+> db.empdetails.find().sort({name:-1})
+{ "_id" : ObjectId("62a872561d38730faedc4653"), "name" : "Ram", "age" : 31, "email" : "Ram@gps.com", "salary" : 4500, "dept" : "Tester" }
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000, "dept" : "Tester" }
+{ "_id" : ObjectId("62a8773c1d38730faedc4654"), "name" : "Mohan", "age" : 32, "email" : "Mohan@gps.com", "salary" : 4000, "dept" : "Designer" }
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "age" : 29, "email" : "Manu@gps.com", "salary" : 5500, "dept" : "Designer" }
+{ "_id" : ObjectId("62a871c21d38730faedc464f"), "name" : "Bhuvan", "age" : 30, "email" : "bhuvan@gps.com", "salary" : 5000, "dept" : "Developer" }
+
+> db.empdetails.createIndex({name:"text"})
+{
+	"createdCollectionAutomatically" : false,
+	"numIndexesBefore" : 1,
+	"numIndexesAfter" : 2,
+	"ok" : 1
+}
+> db.empdetails.find();
+{ "_id" : ObjectId("62a871c21d38730faedc464f"), "name" : "Bhuvan", "age" : 30, "email" : "bhuvan@gps.com", "salary" : 5000, "dept" : "Developer" }
+{ "_id" : ObjectId("62a872141d38730faedc4651"), "name" : "Raju", "age" : 29, "email" : "Raju@gps.com", "salary" : 6000, "dept" : "Tester" }
+{ "_id" : ObjectId("62a8722d1d38730faedc4652"), "name" : "Manu", "age" : 29, "email" : "Manu@gps.com", "salary" : 5500, "dept" : "Designer" }
+{ "_id" : ObjectId("62a872561d38730faedc4653"), "name" : "Ram", "age" : 31, "email" : "Ram@gps.com", "salary" : 4500, "dept" : "Tester" }
+{ "_id" : ObjectId("62a8773c1d38730faedc4654"), "name" : "Mohan", "age" : 32, "email" : "Mohan@gps.com", "salary" : 4000, "dept" : "Designer" }
+
+> db.empdetails.find({$text:{$search:"Mohan Bhuvan"}})
+{ "_id" : ObjectId("62a871c21d38730faedc464f"), "name" : "Bhuvan", "age" : 30, "email" : "bhuvan@gps.com", "salary" : 5000, "dept" : "Developer" }
+{ "_id" : ObjectId("62a8773c1d38730faedc4654"), "name" : "Mohan", "age" : 32, "email" : "Mohan@gps.com", "salary" : 4000, "dept" : "Designer" }
+
